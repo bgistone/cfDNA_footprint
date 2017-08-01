@@ -15,7 +15,9 @@ my $current_chr="";
 my $low_quality_filtered = 0;
 my $low_quality_left = 0;
 my $avilable_reads = 0;
-
+my %good={
+'99'=>1, '83'=>1, '163'=>1, '147'=>1
+};
 open CL,$chrlen or die $!;
 while(<CL>)
 {
@@ -37,6 +39,7 @@ while(<SAM>)
 {
 	chomp;
 	my @t = split "\t", $_;
+	next unless(exists $good{$t[1]});
 	next if(($t[8]<=0 || $t[8]>1000) || !exists $len{$t[2]});
 	my ($Edit_Dist) = $t[-1] =~ /NM:i:(\d+)/;
 
